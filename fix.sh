@@ -178,3 +178,29 @@ xmlstarlet ed -L \
 	-u '//_:class[@name="StackSwitcher"]/_:property[@name="icon-size"]/_:type/@c:type' -v "GtkIconSize" \
 	-u '//_:class[@name="StackSwitcher"]/_:property[@name="icon-size"]/_:type/@name' -v "IconSize" \
 	Gtk-3.0.gir
+
+# fix missing type attribute on <constant> elements in Astal GIRs
+xmlstarlet ed -L \
+	-i '//_:constant[not(@type)]' -t attr -n "type" -v "gint" \
+	AstalHyprland-0.1.gir
+
+xmlstarlet ed -L \
+	-i '//_:constant[not(@type)]' -t attr -n "type" -v "gint" \
+	AstalMpris-0.1.gir
+
+xmlstarlet ed -L \
+	-i '//_:constant[not(@type)]' -t attr -n "type" -v "gint" \
+	AstalIO-0.1.gir
+
+# Add the shared-library to the namespaces for the astal GIRs
+xmlstarlet ed -L \
+	-i '//_:namespace[@name="AstalHyprland"]' -t attr -n "shared-library" -v "astal-hyprland-0.1.so.0" \
+	AstalHyprland-0.1.gir
+
+xmlstarlet ed -L \
+	-i '//_:namespace[@name="AstalMpris"]' -t attr -n "shared-library" -v "astal-mpris-0.1.so.0" \
+	AstalMpris-0.1.gir
+
+xmlstarlet ed -L \
+	-i '//_:namespace[@name="AstalIO"]' -t attr -n "shared-library" -v "astal-io-0.1.so.0" \
+	AstalIO-0.1.gir
